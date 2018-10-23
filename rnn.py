@@ -25,12 +25,12 @@ sc = MinMaxScaler(feature_range=(0, 1))
 
 training_set_scaled = sc.fit_transform(training_set)
 
-#Creating a data structure with 60 steps and 1 output
+#Creating a data structure with 120 steps and 1 output
 X_train = []
 Y_train = []
 
-for i in range(60,1258):
-    X_train.append(training_set_scaled[i-60: i, 0])
+for i in range(120,1258):
+    X_train.append(training_set_scaled[i-120: i, 0])
     Y_train.append(training_set_scaled[i, 0])
 X_train, Y_train = np.array(X_train), np.array(Y_train)
 
@@ -49,19 +49,19 @@ from keras.layers import Dropout
 regressor = Sequential()
 
 # Adding the first LSTM layer and some Dropout regularisation
-regressor.add(LSTM( units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+regressor.add(LSTM( units=77, return_sequences=True, input_shape=(X_train.shape[1], 1)))
 regressor.add(Dropout(0.2))
 
 # Adding the second layer and some Dropout regularisation
-regressor.add(LSTM( units=50, return_sequences=True))
+regressor.add(LSTM( units=77, return_sequences=True))
 regressor.add(Dropout(0.2))
 
 # Adding the third layer and some Dropout regularisation
-regressor.add(LSTM( units=50, return_sequences=True))
+regressor.add(LSTM( units=77, return_sequences=True))
 regressor.add(Dropout(0.2))
 
 # Adding the fourth layer and some Dropout regularisation
-regressor.add(LSTM( units=50))
+regressor.add(LSTM( units=77))
 regressor.add(Dropout(0.2))
 
 # Adding the output layer 
@@ -71,7 +71,7 @@ regressor.add(Dense(units = 1))
 regressor.compile(optimizer = 'adam', loss = 'mean_squared_error' )
 
 # Fitting the RNN to the training set
-regressor.fit( X_train, Y_train, epochs = 100, batch_size = 32 )
+regressor.fit( X_train, Y_train, epochs = 120, batch_size = 32 )
 
 # Part #3 - Making the predictions and visualization the results
 #Getting the real stock price of 2017
